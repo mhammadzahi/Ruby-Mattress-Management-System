@@ -1,0 +1,11 @@
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\Ruby Mattress Management System.exe.config
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\Ruby Mattress Management System.exe
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\Ruby Mattress Management System.pdb
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\obj\Debug\Ruby Mattress Management System.csproj.AssemblyReference.cache
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\obj\Debug\Ruby Mattress Management System.csproj.SuggestedBindingRedirects.cache
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\obj\Debug\Ruby_Mattress_Management_System.Form1.resources
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\obj\Debug\Ruby_Mattress_Management_System.Properties.Resources.resources
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\obj\Debug\Ruby Mattress Management System.csproj.GenerateResource.cache
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\obj\Debug\Ruby Mattress Management System.csproj.CoreCompileInputs.cache
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\obj\Debug\Ruby Mattress Management System.exe
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\obj\Debug\Ruby Mattress Management System.pdb
