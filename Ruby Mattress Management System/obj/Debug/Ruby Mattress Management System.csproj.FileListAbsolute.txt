@@ -9,3 +9,26 @@ C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Manag
 C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\obj\Debug\Ruby Mattress Management System.csproj.CoreCompileInputs.cache
 C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\obj\Debug\Ruby Mattress Management System.exe
 C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\obj\Debug\Ruby Mattress Management System.pdb
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\Google.Protobuf.dll
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\K4os.Compression.LZ4.dll
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\K4os.Compression.LZ4.Streams.dll
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\K4os.Hash.xxHash.dll
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\MySql.Data.dll
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\System.Buffers.dll
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\System.Memory.dll
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\ZstdNet.dll
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\BouncyCastle.Crypto.xml
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\Google.Protobuf.pdb
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\Google.Protobuf.xml
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\K4os.Compression.LZ4.xml
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\K4os.Compression.LZ4.Streams.xml
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\K4os.Hash.xxHash.xml
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\MySql.Data.xml
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\System.Buffers.xml
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\System.Memory.xml
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\kaleem\source\repos\Ruby Mattress Management System\Ruby Mattress Management System\obj\Debug\Ruby Mattress Management System.csproj.CopyComplete
