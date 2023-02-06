@@ -447,8 +447,18 @@ namespace Ruby_Mattress_Management_System
             refresh_();
         }
 
-        private void button5_Click(object sender, EventArgs e){//cancel button
-            
+        private void button5_Click(object sender, EventArgs e){
+            try{
+                con.Open();
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex){
+                MessageBox.Show(ex.Message);
+            }
+            MySqlCommand command = new MySqlCommand("SELECT drawing FROM job_card WHERE id_job = @id", con);
+            command.Parameters.AddWithValue("@id", 39);
+            var fileContents = (byte[])command.ExecuteScalar();
+            File.WriteAllBytes("C:\\Users\\ASUS\\Desktop\\desktop\\ddd.pdf", fileContents);
+            con.Close();
         }
     }
 }
