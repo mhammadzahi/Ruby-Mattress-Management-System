@@ -21,10 +21,25 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
 namespace Ruby_Mattress_Management_System
 {
     public partial class Form1 : Form {
+        string fileName;
         MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection("server=localhost; database=productionmaster; uid=root");
         public Form1(){
             InitializeComponent();
         }
+        public string uploadDraw(){
+            using (OpenFileDialog openFileDialog = new OpenFileDialog()){
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "pdf files (*.pdf)|*.pdf";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if(openFileDialog.ShowDialog() == DialogResult.OK)
+                    return openFileDialog.FileName;
+                else
+                    return "error";
+            }
+            
+        }//end uploadDraw function
         private void verIemContr(){
             if(comboBox3.Text == string.Empty || comboBox4.Text == string.Empty || textBox4.Text == string.Empty || i_width.Text == string.Empty || i_length.Text == string.Empty || i_height.Text == string.Empty || textBox6.Text == string.Empty || textBox7.Text == string.Empty)
                 button4.Enabled = false;
@@ -85,6 +100,7 @@ namespace Ruby_Mattress_Management_System
             i_length.Text = string.Empty;
             
             //fill emirates
+            emiratesComb.Items.Clear();
             emiratesComb.Items.Add("Abu Dhabi");
             emiratesComb.Items.Add("Dubai");
             emiratesComb.Items.Add("Sharjah");
@@ -153,31 +169,8 @@ namespace Ruby_Mattress_Management_System
             label2.Enabled = true;
         }
 
-        private void button9_Click(object sender, EventArgs e){
-            var fileContent = string.Empty;
-            var filePath = string.Empty;
-
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "pdf files (*.pdf)|*.pdf";
-                openFileDialog.FilterIndex = 2;
-                openFileDialog.RestoreDirectory = true;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK){
-                    //Get the path of specified file
-                    filePath = openFileDialog.FileName;
-
-                    //Read the contents of the file into a stream
-                    var fileStream = openFileDialog.OpenFile();
-
-                    using (StreamReader reader = new StreamReader(fileStream)){
-                        fileContent = reader.ReadToEnd();
-                    }
-                }
-            }
-
-            MessageBox.Show(fileContent, "File Content at path: " + filePath, MessageBoxButtons.OK);
+        private void button9_Click(object sender, EventArgs e){//upload drawing
+            fileName = uploadDraw();
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e){
@@ -218,23 +211,40 @@ namespace Ruby_Mattress_Management_System
             try{
                 con.Open();
             }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
+            catch (MySql.Data.MySqlClient.MySqlException ex){
                 MessageBox.Show(ex.Message);
             }
             //insert to database
-            MySqlCommand cmd = new MySqlCommand("insert into job_card(order_date, delive_date, location, area, type, saleman, customer, item) values(@od, @dd, @loc, @a, @t, @sm, @cust, @i)", con);
-            cmd.Parameters.AddWithValue("@od", dateTimePicker2.Value);
-            cmd.Parameters.AddWithValue("@dd", dateTimePicker1.Value);
-            cmd.Parameters.AddWithValue("@loc", emiratesComb.Text);
-            cmd.Parameters.AddWithValue("@a", textBox9.Text);
-            cmd.Parameters.AddWithValue("@t", itemType);
-            cmd.Parameters.AddWithValue("@sm", comboBox2.Text);
-            cmd.Parameters.AddWithValue("@cust", comboBox1.Text);
-            cmd.Parameters.AddWithValue("@i", comboBox3.Text);
-            cmd.ExecuteNonQuery();
-            con.Close();
             
+            MySqlCommand cmd;
+            if (fileName != null && fileName != "error"){
+                byte[] pdfData = System.IO.File.ReadAllBytes(fileName);
+                cmd = new MySqlCommand("insert into job_card(order_date, delive_date, location, area, type, saleman, customer, item, drawing) values(@od, @dd, @loc, @a, @t, @sm, @cust, @i, @file_)", con);
+                cmd.Parameters.AddWithValue("@od", dateTimePicker2.Value);
+                cmd.Parameters.AddWithValue("@dd", dateTimePicker1.Value);
+                cmd.Parameters.AddWithValue("@loc", emiratesComb.Text);
+                cmd.Parameters.AddWithValue("@a", textBox9.Text);
+                cmd.Parameters.AddWithValue("@t", itemType);
+                cmd.Parameters.AddWithValue("@sm", comboBox2.Text);
+                cmd.Parameters.AddWithValue("@cust", comboBox1.Text);
+                cmd.Parameters.AddWithValue("@i", comboBox3.Text);
+                cmd.Parameters.AddWithValue("@file_", pdfData);
+                cmd.ExecuteNonQuery();
+            }
+            else{
+                cmd = new MySqlCommand("insert into job_card(order_date, delive_date, location, area, type, saleman, customer, item) values(@od, @dd, @loc, @a, @t, @sm, @cust, @i)", con);
+                cmd.Parameters.AddWithValue("@od", dateTimePicker2.Value);
+                cmd.Parameters.AddWithValue("@dd", dateTimePicker1.Value);
+                cmd.Parameters.AddWithValue("@loc", emiratesComb.Text);
+                cmd.Parameters.AddWithValue("@a", textBox9.Text);
+                cmd.Parameters.AddWithValue("@t", itemType);
+                cmd.Parameters.AddWithValue("@sm", comboBox2.Text);
+                cmd.Parameters.AddWithValue("@cust", comboBox1.Text);
+                cmd.Parameters.AddWithValue("@i", comboBox3.Text);
+                cmd.ExecuteNonQuery();
+            }
+            con.Close();
+            refresh_();
         }
 
         private void button1_Click(object sender, EventArgs e){
@@ -366,7 +376,7 @@ namespace Ruby_Mattress_Management_System
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
 
-        private void button2_Click(object sender, EventArgs e){
+        private void button2_Click(object sender, EventArgs e){//edit customer
             try{
                 con.Open();
             }
@@ -376,11 +386,11 @@ namespace Ruby_Mattress_Management_System
 
             string Namee, number, msg1, title1, msg2, title2;
 
-            msg1 = "Enter a new customer name: ";
-            msg2 = "Enter a new customer number: ";
+            msg1 = "Enter the new customer name: ";
+            msg2 = "Enter the new customer number: ";
 
-            title1 = "Customer New Name";
-            title2 = "Customer New Number";
+            title1 = "Edit Customer Name";
+            title2 = "Edit Customer Number";
 
             Namee = Interaction.InputBox(msg1, title1);
             number = Interaction.InputBox(msg2, title2);
@@ -388,7 +398,7 @@ namespace Ruby_Mattress_Management_System
             MySqlCommand cmd = new MySqlCommand("update customer set name_customer = @name, number_customer = @number where name_customer = @sn", con);
             cmd.Parameters.AddWithValue("@name", Namee);
             cmd.Parameters.AddWithValue("@number", number);
-            cmd.Parameters.AddWithValue("@sn", comboBox1.SelectedValue);
+            cmd.Parameters.AddWithValue("@sn", comboBox1.Text);
             cmd.ExecuteNonQuery();
             con.Close();
             refresh_();
@@ -407,6 +417,38 @@ namespace Ruby_Mattress_Management_System
         private void button11_Click(object sender, EventArgs e)
         {
             refresh_();
+        }
+
+        private void button8_Click(object sender, EventArgs e){// update saleman
+            try{
+                con.Open();
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex){
+                MessageBox.Show(ex.Message);
+            }
+
+            string Namee, number, msg1, title1, msg2, title2;
+
+            msg1 = "Enter the new Saleman name: ";
+            msg2 = "Enter the new Saleman number: ";
+
+            title1 = "Edit Saleman Name";
+            title2 = "Edit Saleman Number";
+
+            Namee = Interaction.InputBox(msg1, title1);
+            number = Interaction.InputBox(msg2, title2);
+            //update and save to database
+            MySqlCommand cmd = new MySqlCommand("update saleman set name_saleman = @name, phone_number_saleman = @number where name_saleman = @sn", con);
+            cmd.Parameters.AddWithValue("@name", Namee);
+            cmd.Parameters.AddWithValue("@number", number);
+            cmd.Parameters.AddWithValue("@sn", comboBox2.Text);
+            cmd.ExecuteNonQuery();
+            con.Close();
+            refresh_();
+        }
+
+        private void button5_Click(object sender, EventArgs e){//cancel button
+            
         }
     }
 }
