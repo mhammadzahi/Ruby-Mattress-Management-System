@@ -17,13 +17,13 @@ using System.Xml;
 using System.Data.Common;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
+using System.Diagnostics;
 
-namespace Ruby_Mattress_Management_System
-{
-    public partial class Form1 : Form {
+namespace Ruby_Mattress_Management_System{
+    public partial class jobCardForm : Form {
         string fileName = null;
         MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection("server=localhost; database=productionmaster; uid=root");
-        public Form1(){
+        public jobCardForm(){
             InitializeComponent();
         }
         public string uploadDraw(){//return file path
@@ -42,7 +42,13 @@ namespace Ruby_Mattress_Management_System
             }
             
         }//end uploadDraw function
-        private void verIemContr(){ //against empty controls
+        private void verJobContr(){ //against empty jobcard  controls
+            if(comboBox1.Text == string.Empty || comboBox2.Text == string.Empty || (villaRadio.Checked == false && bdgRadio.Checked == false) || comboBox3.Text == string.Empty || emiratesComb.Text == string.Empty)
+                button6.Enabled = false;
+            else
+                button6.Enabled = true;
+        }
+        private void verIemContr(){ //against empty items  controls
             if(comboBox3.Text == string.Empty || comboBox4.Text == string.Empty || textBox4.Text == string.Empty || i_width.Text == string.Empty || i_length.Text == string.Empty || i_height.Text == string.Empty || textBox6.Text == string.Empty || textBox7.Text == string.Empty)
                 button4.Enabled = false;
             else
@@ -77,11 +83,23 @@ namespace Ruby_Mattress_Management_System
         }
 
         private void refresh_(){
+            //villa vs BDG checkbox problem
+            villaRadio.Enabled = true;
+            bdgRadio.Enabled = true;
+            textBox8.Enabled = true;
+            textBox1.Enabled = true;
+            label2.Enabled = true;
+            label12.Enabled = true;
+            checkBox1.Checked = false;
+            villaRadio.Checked = false;
+            bdgRadio.Checked = false;
+            //
             fileName = null;
             //
             button2.Enabled = false;
             button8.Enabled = false;
             button3.Enabled = false;
+            button9.Text = "Upload Drawings";
 
             //empty controls
             comboBox1.Items.Clear();
@@ -152,6 +170,7 @@ namespace Ruby_Mattress_Management_System
 
             fillData();//DGV
             verIemContr();
+            verJobContr();
         }//end refresh func
         private void Form1_Load(object sender, EventArgs e){
             //Fill Emirates Combo
@@ -214,7 +233,7 @@ namespace Ruby_Mattress_Management_System
 
         private void button6_Click(object sender, EventArgs e){ //add new job card to db
             string itemType;
-            if(villaRadio.Checked == true){
+            if(villaRadio.Checked == true){ //
                 itemType = "villa";
             }
             else if(bdgRadio.Checked == true){
@@ -328,8 +347,7 @@ namespace Ruby_Mattress_Management_System
             try{
                 con.Open();
             }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
+            catch (MySql.Data.MySqlClient.MySqlException ex){
                 MessageBox.Show(ex.Message);
             }
 
@@ -356,8 +374,7 @@ namespace Ruby_Mattress_Management_System
             try{
                 con.Open();
             }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
+            catch (MySql.Data.MySqlClient.MySqlException ex){
                 MessageBox.Show(ex.Message);
             }
             //insert to database
@@ -400,18 +417,15 @@ namespace Ruby_Mattress_Management_System
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
 
-        private void i_length_KeyPress(object sender, KeyPressEventArgs e)
-        {
+        private void i_length_KeyPress(object sender, KeyPressEventArgs e){
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
 
-        private void i_height_KeyPress(object sender, KeyPressEventArgs e)
-        {
+        private void i_height_KeyPress(object sender, KeyPressEventArgs e){
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
 
-        private void textBox6_KeyPress(object sender, KeyPressEventArgs e)
-        {
+        private void textBox6_KeyPress(object sender, KeyPressEventArgs e){
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
 
@@ -443,18 +457,17 @@ namespace Ruby_Mattress_Management_System
             refresh_();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e){
             button2.Enabled = true;
+            verJobContr();
         }
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e){
             button8.Enabled = true;
+            verJobContr();
         }
 
-        private void button11_Click(object sender, EventArgs e)
-        {
+        private void button11_Click(object sender, EventArgs e){
             refresh_();
         }
 
@@ -492,6 +505,7 @@ namespace Ruby_Mattress_Management_System
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e){
             verIemContr();
+            verJobContr();
         }
 
         private void button3_Click(object sender, EventArgs e){//for item edition, first select from DGV and then dit
@@ -522,31 +536,64 @@ namespace Ruby_Mattress_Management_System
             con.Close();
             refresh_();
         }
-        private void textBox8_KeyPress(object sender, KeyPressEventArgs e)
-        {
+        private void textBox8_KeyPress(object sender, KeyPressEventArgs e){
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
-        {
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e){
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
         //RetrievePDF
-        private void RetrievePDF(){//ooooooooooo-not called yet-ooooooooooooooooooooooooooooooooo
-            byte[] pdfData = null;
-            try{
-                con.Open();
+        private void RetrievePDF(){//oooooooooooooo not called yet oooooooooooooooooooooooooooooooooooooo
+            FolderBrowserDialog diag = new FolderBrowserDialog();
+            if (diag.ShowDialog() == System.Windows.Forms.DialogResult.OK){
+                byte[] pdfData = null;
+                try{
+                    con.Open();
+                }
+                catch (MySql.Data.MySqlClient.MySqlException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                var cmd1 = new MySqlCommand("select drawing from job_card where id_job = 59", con);
+                MySqlDataReader dr1 = cmd1.ExecuteReader();
+                while (dr1.Read()){
+                    pdfData = (byte[])dr1["drawing"];
+                }
+                File.WriteAllBytes(diag.SelectedPath + "\\ccc.pdf", pdfData);
+                dr1.Close();
+                con.Close();
+                //open pdf
+                Process.Start(diag.SelectedPath + "\\ccc.pdf");
             }
-            catch (MySql.Data.MySqlClient.MySqlException ex){
-                MessageBox.Show(ex.Message);
-            }
-            var cmd1 = new MySqlCommand("select drawing from job_card where id_job = 51", con);
-            MySqlDataReader dr1 = cmd1.ExecuteReader();
-            while (dr1.Read()){
-                pdfData = (byte[])dr1["drawing"];
-            }
-            File.WriteAllBytes("C:\\Users\\ASUS\\Desktop\\desktop\\ccc.pdf", pdfData);
-            dr1.Close();
-            con.Close();
+            else
+                Interaction.MsgBox("You didn't select any folder!");
         }
+
+        private void emiratesComb_SelectedIndexChanged(object sender, EventArgs e){
+            verJobContr();
+        }
+
+        private void bdgRadio_Click(object sender, EventArgs e)
+        {
+            verJobContr();
+        }
+
+        private void villaRadio_Click(object sender, EventArgs e)
+        {
+            verJobContr();
+        }
+        
+        /*private void TextChanged_event(object sender, EventArgs e){//oooooooooooooo not called yet ooooooooooooooooooooooooooo
+            string searchText = textBox2.Text;
+
+            int index = comboBox5.FindString(searchText);
+
+            if (index != -1){
+                comboBox5.SelectedIndex = index;
+            }
+            else{
+                comboBox5.SelectedIndex = -1;
+            }
+        }*/
     }
 }

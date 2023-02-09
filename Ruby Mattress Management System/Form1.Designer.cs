@@ -1,6 +1,6 @@
 ﻿namespace Ruby_Mattress_Management_System
 {
-    partial class Form1
+    partial class jobCardForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(jobCardForm));
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -376,10 +376,10 @@
             this.villaRadio.Name = "villaRadio";
             this.villaRadio.Size = new System.Drawing.Size(54, 17);
             this.villaRadio.TabIndex = 43;
-            this.villaRadio.TabStop = true;
             this.villaRadio.Text = "VILLA";
             this.villaRadio.UseVisualStyleBackColor = true;
             this.villaRadio.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.villaRadio.Click += new System.EventHandler(this.villaRadio_Click);
             // 
             // bdgRadio
             // 
@@ -388,10 +388,10 @@
             this.bdgRadio.Name = "bdgRadio";
             this.bdgRadio.Size = new System.Drawing.Size(48, 17);
             this.bdgRadio.TabIndex = 44;
-            this.bdgRadio.TabStop = true;
             this.bdgRadio.Text = "BDG";
             this.bdgRadio.UseVisualStyleBackColor = true;
             this.bdgRadio.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            this.bdgRadio.Click += new System.EventHandler(this.bdgRadio_Click);
             // 
             // checkBox1
             // 
@@ -412,6 +412,7 @@
             this.emiratesComb.Name = "emiratesComb";
             this.emiratesComb.Size = new System.Drawing.Size(121, 21);
             this.emiratesComb.TabIndex = 46;
+            this.emiratesComb.SelectedIndexChanged += new System.EventHandler(this.emiratesComb_SelectedIndexChanged);
             // 
             // dateTimePicker1
             // 
@@ -525,7 +526,7 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
-            // Form1
+            // jobCardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -576,7 +577,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "jobCardForm";
             this.Text = " Job Card";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridItem)).EndInit();

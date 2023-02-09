@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 08, 2023 at 02:02 PM
+-- Generation Time: Feb 09, 2023 at 09:19 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -38,7 +38,8 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`id_customer`, `name_customer`, `number_customer`) VALUES
-(20, 'customer1', '0531459745');
+(20, 'customer1', '0531459745'),
+(21, 'customer 3', '45415515');
 
 -- --------------------------------------------------------
 
@@ -63,7 +64,8 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`id_item`, `s_width`, `name_item`, `category_item`, `description_item`, `quantity_item`, `remark_item`, `s_length`, `s_height`) VALUES
-(68, 4, 'item12', 'C', '6754', 77, '799', 4, 7);
+(68, 4, 'item12', 'C', '6754', 77, '799', 4, 7),
+(69, 7, 'item 13', 'C', ' ', 6, ' ', 4, 5);
 
 -- --------------------------------------------------------
 
@@ -81,7 +83,8 @@ CREATE TABLE `items_combo` (
 --
 
 INSERT INTO `items_combo` (`id_`, `name_`) VALUES
-(13, 'item12');
+(13, 'item12'),
+(14, 'item 13');
 
 -- --------------------------------------------------------
 
@@ -172,25 +175,25 @@ ALTER TABLE `saleman`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `items_combo`
 --
 ALTER TABLE `items_combo`
-  MODIFY `id_` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `job_card`
 --
 ALTER TABLE `job_card`
-  MODIFY `id_job` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id_job` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `saleman`
