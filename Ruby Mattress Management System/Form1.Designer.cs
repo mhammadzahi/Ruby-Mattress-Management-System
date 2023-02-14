@@ -80,7 +80,6 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.button12 = new System.Windows.Forms.Button();
-            this.button13 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridItem)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -136,7 +135,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(197, 60);
+            this.button1.Location = new System.Drawing.Point(196, 61);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(38, 23);
             this.button1.TabIndex = 9;
@@ -146,7 +145,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(235, 60);
+            this.button2.Location = new System.Drawing.Point(234, 61);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(41, 23);
             this.button2.TabIndex = 10;
@@ -165,10 +164,10 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(298, 212);
+            this.textBox4.Location = new System.Drawing.Point(293, 212);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(408, 21);
+            this.textBox4.Size = new System.Drawing.Size(411, 21);
             this.textBox4.TabIndex = 18;
             this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
@@ -185,7 +184,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(472, 198);
+            this.label4.Location = new System.Drawing.Point(470, 198);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(60, 13);
             this.label4.TabIndex = 22;
@@ -231,7 +230,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(197, 136);
+            this.button7.Location = new System.Drawing.Point(196, 136);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(38, 21);
             this.button7.TabIndex = 29;
@@ -241,7 +240,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(235, 136);
+            this.button8.Location = new System.Drawing.Point(234, 136);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(41, 21);
             this.button8.TabIndex = 30;
@@ -275,6 +274,7 @@
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(121, 22);
             this.textBox9.TabIndex = 36;
+            this.textBox9.TextChanged += new System.EventHandler(this.textBox9_TextChanged);
             // 
             // label13
             // 
@@ -307,7 +307,7 @@
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridItem.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridItem.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridItem.ColumnHeadersHeight = 22;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -393,7 +393,7 @@
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(924, 593);
+            this.button10.Location = new System.Drawing.Point(1023, 593);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(66, 28);
             this.button10.TabIndex = 49;
@@ -405,7 +405,7 @@
             // 
             this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(238, 212);
+            this.comboBox4.Location = new System.Drawing.Point(235, 212);
             this.comboBox4.Name = "comboBox4";
             this.comboBox4.Size = new System.Drawing.Size(54, 21);
             this.comboBox4.TabIndex = 50;
@@ -414,7 +414,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(240, 197);
+            this.label8.Location = new System.Drawing.Point(237, 197);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(49, 13);
             this.label8.TabIndex = 5;
@@ -471,7 +471,7 @@
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(990, 593);
+            this.button11.Location = new System.Drawing.Point(1089, 593);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(66, 28);
             this.button11.TabIndex = 57;
@@ -481,7 +481,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(197, 211);
+            this.button5.Location = new System.Drawing.Point(196, 211);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(38, 23);
             this.button5.TabIndex = 58;
@@ -511,7 +511,7 @@
             this.groupBox1.Controls.Add(this.i_length);
             this.groupBox1.Controls.Add(this.i_height);
             this.groupBox1.Controls.Add(this.i_width);
-            this.groupBox1.Location = new System.Drawing.Point(709, 197);
+            this.groupBox1.Location = new System.Drawing.Point(707, 197);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(129, 39);
             this.groupBox1.TabIndex = 61;
@@ -536,6 +536,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(42, 20);
             this.textBox1.TabIndex = 33;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // textBox8
@@ -544,6 +545,7 @@
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(42, 20);
             this.textBox8.TabIndex = 34;
+            this.textBox8.TextChanged += new System.EventHandler(this.textBox8_TextChanged);
             this.textBox8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox8_KeyPress);
             // 
             // textBox3
@@ -564,7 +566,7 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(1056, 593);
+            this.button12.Location = new System.Drawing.Point(1155, 593);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(71, 28);
             this.button12.TabIndex = 65;
@@ -572,22 +574,11 @@
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
-            // button13
-            // 
-            this.button13.Location = new System.Drawing.Point(1127, 593);
-            this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(98, 28);
-            this.button13.TabIndex = 66;
-            this.button13.Text = "Upload Drawings";
-            this.button13.UseVisualStyleBackColor = true;
-            this.button13.Click += new System.EventHandler(this.button13_Click);
-            // 
             // jobCardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1305, 625);
-            this.Controls.Add(this.button13);
             this.Controls.Add(this.button12);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.textBox3);
@@ -696,7 +687,6 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.Button button13;
     }
 }
 

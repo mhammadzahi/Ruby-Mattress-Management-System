@@ -114,14 +114,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Ruby Mattress Management System.exe" size="263664">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Ruby Mattress Management System.exe" size="264176">
       <assemblyIdentity name="Ruby Mattress Management System" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>uqZknhCBsvnrpDpgGVLgMbzy4PNzQ4A3GuI+f8tb5J4=</dsig:DigestValue>
+        <dsig:DigestValue>9OKbg4FQ2PM1hQgnAKTEZSO8SczWkaP59mBE5YKOtuE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.VisualBasic;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,15 +25,15 @@ namespace Ruby_Mattress_Management_System
             jobCardForm frm = new jobCardForm();
             frm.Show();
         }
-        private void FilljobCardDJV(){
-            try{ //open Connection
+        private void FilljobCardDJV() {
+            try { //open Connection
                 con.Open();
             }
-            catch (MySql.Data.MySqlClient.MySqlException ex){
+            catch (MySql.Data.MySqlClient.MySqlException ex) {
                 MessageBox.Show(ex.Message);
             }
-            
-            MySqlCommand cmd = new MySqlCommand("select order_date, delive_date, location, area, type, saleman, GROUP_CONCAT(name_item SEPARATOR ', '), customer, lift_size_len, lift_size_width FROM job_card LEFT JOIN item i on job_card.id_job = i.id_item", con);
+
+            MySqlCommand cmd = new MySqlCommand("select * from job_card", con);
             //MySqlCommand cmd = new MySqlCommand("select order_date, delive_date, location, area, type, saleman, name_item, customer, lift_size_len, lift_size_width FROM job_card JOIN item i on job_card.id_job = i.id_job_card", con);
 
             MySqlDataReader dr = cmd.ExecuteReader();
@@ -48,16 +49,15 @@ namespace Ruby_Mattress_Management_System
             jobCardDJV.Columns[3].HeaderText = "Area";
             jobCardDJV.Columns[4].HeaderText = "Type";
             jobCardDJV.Columns[5].HeaderText = "Saleman";
-            jobCardDJV.Columns[6].HeaderText = "Items";
-            jobCardDJV.Columns[7].HeaderText = "Customer";
-            jobCardDJV.Columns[8].HeaderText = "Lift Size Length";
-            jobCardDJV.Columns[9].HeaderText = "Lift Size Width";
-            for(int i = 0; i < 10; i++){
+            jobCardDJV.Columns[6].HeaderText = "Customer";
+            //jobCardDJV.Columns[7].HeaderText = "drawing";
+            jobCardDJV.Columns[7].HeaderText = "Lift Size Length";
+            jobCardDJV.Columns[8].HeaderText = "Lift Size Width";
+            for(int i = 0; i < 9; i++){
+                //jobCardDJV.Columns[i].Width = 50;
                 jobCardDJV.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            
-            jobCardDJV.Columns[6].Width = 150;
-
+            //for header color
             jobCardDJV.ColumnHeadersDefaultCellStyle.BackColor = Color.Coral;
             jobCardDJV.EnableHeadersVisualStyles = false;
 
@@ -65,6 +65,17 @@ namespace Ruby_Mattress_Management_System
 
         private void Form2_Load(object sender, EventArgs e){
             FilljobCardDJV();
+        }
+
+        private void button1_Click(object sender, EventArgs e){//show drawing button
+
+        }
+
+        private void jobCardDJV_SelectionChanged(object sender, EventArgs e){//selection changed
+            foreach (DataGridViewRow row in jobCardDJV.SelectedRows){
+                // 
+                Interaction.MsgBox(row.Cells[0].Value.ToString());
+            }
         }
     }
 }

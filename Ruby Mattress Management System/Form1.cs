@@ -3,28 +3,27 @@ using Microsoft.VisualBasic;
 //using System.Collections.Generic;
 //using System.ComponentModel;
 using System.Data;
-//using System.Drawing;
+using System.Drawing;
 using System.IO;
 using MySql.Data.MySqlClient;
-//using System.Linq;
-//using System.Text;
+using System.Linq;
+using System.Text;
 //using System.Threading.Tasks;
 using System.Windows.Forms;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
-//using MySqlX.XDevAPI.Relational;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using MySqlX.XDevAPI.Relational;
 //using System.Data.SqlClient;
 //using System.Xml;
 //using System.Data.Common;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
 using System.Diagnostics;
-using System.Drawing;
+//using System.Drawing;
 using System.Globalization;
 
 namespace Ruby_Mattress_Management_System{
     public partial class jobCardForm : Form {
         string fileName;
-        string fileNameJob;
         int jobCrdId;
         bool newJobCard;
         MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection("server=localhost; database=productionmaster; uid=root");
@@ -48,29 +47,27 @@ namespace Ruby_Mattress_Management_System{
             
         }//end uploadDraw for item
         //****************************************************************
-        public string uploadDrawoJob(){//return file path --for job card--
-            using (OpenFileDialog openFileDialog = new OpenFileDialog()){
-                openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "pdf files (*.pdf)|*.pdf";
-                openFileDialog.FilterIndex = 2;
-                openFileDialog.RestoreDirectory = true;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+        private void verJobContr(){ //against empty jobcard controls
+            if (newJobCard){
+                button6.Enabled = false;
+            }
+            else{
+                if (comboBox1.Text == string.Empty || comboBox2.Text == string.Empty || (villaRadio.Checked == false && bdgRadio.Checked == false) || (bdgRadio.Checked == true && (textBox8.Text == string.Empty || textBox1.Text == string.Empty)) || emiratesComb.Text == string.Empty)
                 {
-                    return openFileDialog.FileName;
+                    if (checkBox1.Checked == true && bdgRadio.Checked == true)
+                    {
+                        button6.Enabled = true;
+                    }
+                    else
+                    {
+                        button6.Enabled = false;
+                    }
                 }
                 else
                 {
-                    return "File not selected!";
+                    button6.Enabled = true;
                 }
             }
-
-        }//end uploadDraw for Job Card
-        private void verJobContr(){ //against empty jobcard  controls
-            if(comboBox1.Text == string.Empty || comboBox2.Text == string.Empty || (villaRadio.Checked == false && bdgRadio.Checked == false) || comboBox3.Text == string.Empty || emiratesComb.Text == string.Empty)
-                button6.Enabled = false;
-            else
-                button6.Enabled = true;
         }
         private void verIemContr(){ //against empty items  controls
             if(comboBox3.Text == string.Empty || comboBox4.Text == string.Empty || textBox4.Text == string.Empty || i_width.Text == string.Empty || i_length.Text == string.Empty || i_height.Text == string.Empty || textBox6.Text == string.Empty || textBox7.Text == string.Empty || button9.Text == "Upload Drawings")
@@ -78,7 +75,7 @@ namespace Ruby_Mattress_Management_System{
             else
                 button4.Enabled = true;
         }
-        private void fillData(){//DGV
+        private void fillData(){//fill items DGV
             try{ //open Connection
                 con.Open();
             }
@@ -86,7 +83,8 @@ namespace Ruby_Mattress_Management_System{
                 MessageBox.Show(ex.Message);
             }
 
-            MySqlCommand cmd = new MySqlCommand("select name_item, category_item, description_item, s_width, s_length, s_height, quantity_item, remark_item, drawing_name from item", con);
+            MySqlCommand cmd = new MySqlCommand("select name_item, category_item, description_item, s_width, s_length, s_height, quantity_item, remark_item, drawing_name from item where id_job_card = @idJobCard", con);
+            cmd.Parameters.AddWithValue("@idJobCard", jobCrdId);
             MySqlDataReader dr = cmd.ExecuteReader();
 
             DataTable dt = new DataTable();
@@ -213,13 +211,16 @@ namespace Ruby_Mattress_Management_System{
         private void radioButton1_CheckedChanged(object sender, EventArgs e){
             textBox8.Text = string.Empty;
             textBox1.Text = string.Empty;
+
             textBox8.Enabled = false;
             textBox1.Enabled = false;
+
             label12.Enabled = false;
-            //label2.Enabled = false;
+            
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e){
+            checkBox1.Checked = false;
             textBox8.Enabled = true;
             textBox1.Enabled = true;
             label12.Enabled = true;
@@ -236,14 +237,13 @@ namespace Ruby_Mattress_Management_System{
             verIemContr();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e){
+        private void checkBox1_CheckedChanged(object sender, EventArgs e){//handle checkbox event
             
+            textBox1.Text = string.Empty;
+            textBox8.Text = string.Empty;
             if(checkBox1.Checked == true){
                 textBox8.Text = string.Empty;
                 textBox1.Text = string.Empty;
-                //
-                villaRadio.Enabled = false;
-                bdgRadio.Enabled = false;
                 //
                 textBox8.Enabled = false;
                 textBox1.Enabled = false;
@@ -259,17 +259,17 @@ namespace Ruby_Mattress_Management_System{
                 //label2.Enabled = true;
                 label12.Enabled = true;
             }
-        }
+            verJobContr();
+        }//end checkbox event
 
         private void button10_Click(object sender, EventArgs e){
           
             this.Close();
         }
 
-        private void button6_Click(object sender, EventArgs e){ //add new job card to db
-
+        private void button6_Click(object sender, EventArgs e){ //save new job card in db
             string itemType;
-            if(villaRadio.Checked == true){ //
+            if(villaRadio.Checked == true){
                 itemType = "villa";
             }
             else if(bdgRadio.Checked == true){
@@ -284,11 +284,11 @@ namespace Ruby_Mattress_Management_System{
             catch (MySql.Data.MySqlClient.MySqlException ex){
                 MessageBox.Show(ex.Message);
             }
-            //insert to database
+            
             MySqlCommand cmd;
             if(textBox1.Text != string.Empty || textBox8.Text != string.Empty){
-                byte[] pdfData = File.ReadAllBytes(fileNameJob);
-                cmd = new MySqlCommand("insert into job_card(id_job, order_date, delive_date, location, area, type, saleman, customer, item, drawing, lift_size_len, lift_size_width) values(@id, @od, @dd, @loc, @a, @t, @sm, @cust, @i, @file_, @len, @wid)", con);
+                //byte[] pdfData = File.ReadAllBytes(fileNameJob);
+                cmd = new MySqlCommand("update job_card set order_date = @od, delive_date = @dd, location = @loc, area = @a, type = @t, saleman = @sm, customer = @cust, lift_size_len = @len, lift_size_width = @wid where id_job = @id", con);
                 cmd.Parameters.AddWithValue("@id", jobCrdId);
                 cmd.Parameters.AddWithValue("@od", dateTimePicker2.Value);
                 cmd.Parameters.AddWithValue("@dd", dateTimePicker1.Value);
@@ -297,15 +297,15 @@ namespace Ruby_Mattress_Management_System{
                 cmd.Parameters.AddWithValue("@t", itemType);
                 cmd.Parameters.AddWithValue("@sm", comboBox2.Text);
                 cmd.Parameters.AddWithValue("@cust", comboBox1.Text);
-                cmd.Parameters.AddWithValue("@i", comboBox3.Text);
-                cmd.Parameters.AddWithValue("@file_", pdfData);
+                //cmd.Parameters.AddWithValue("@i", comboBox3.Text);
+                //cmd.Parameters.AddWithValue("@file_", pdfData);
                 cmd.Parameters.AddWithValue("@len", int.Parse(textBox8.Text));
                 cmd.Parameters.AddWithValue("@wid", int.Parse(textBox1.Text));
                 cmd.ExecuteNonQuery();
             }
             else{
-                byte[] pdfData = File.ReadAllBytes(fileNameJob);
-                cmd = new MySqlCommand("insert into job_card(id_job, order_date, delive_date, location, area, type, saleman, customer, item, drawing) values(@id, @od, @dd, @loc, @a, @t, @sm, @cust, @i, @file_)", con);
+                //byte[] pdfData = File.ReadAllBytes(fileNameJob);
+                cmd = new MySqlCommand("update job_card set order_date = @od, delive_date = @dd, location = @loc, area = @a, type = @t, saleman = @sm, customer = @cust where id_job = @id", con);
                 cmd.Parameters.AddWithValue("@id", jobCrdId);
                 cmd.Parameters.AddWithValue("@od", dateTimePicker2.Value);
                 cmd.Parameters.AddWithValue("@dd", dateTimePicker1.Value);
@@ -314,17 +314,17 @@ namespace Ruby_Mattress_Management_System{
                 cmd.Parameters.AddWithValue("@t", itemType);
                 cmd.Parameters.AddWithValue("@sm", comboBox2.Text);
                 cmd.Parameters.AddWithValue("@cust", comboBox1.Text);
-                cmd.Parameters.AddWithValue("@i", comboBox3.Text);
-                cmd.Parameters.AddWithValue("@file_", pdfData);
+                //cmd.Parameters.AddWithValue("@i", comboBox3.Text);
+                //cmd.Parameters.AddWithValue("@file_", pdfData);
                 cmd.ExecuteNonQuery();
             }
             con.Close();
-            refresh_();
-            jobCrdId = generInt();
             newJobCard = true;
+            jobCrdId = generInt();
+            refresh_();
         }//end new job card to db
 
-        private void button1_Click(object sender, EventArgs e){
+        private void button1_Click(object sender, EventArgs e){//add new customer
             comboBox1.SelectedIndex = -1;
             try{
                 con.Open();
@@ -344,10 +344,12 @@ namespace Ruby_Mattress_Management_System{
             customerName = Interaction.InputBox(msg1, title1);
             customerNumber = Interaction.InputBox(msg2, title2);
             //insert to database
-            MySqlCommand cmd = new MySqlCommand("insert into customer(name_customer, number_customer) values(@name, @number)", con);
-            cmd.Parameters.AddWithValue("@name", customerName);
-            cmd.Parameters.AddWithValue("@number", customerNumber);
-            cmd.ExecuteNonQuery();
+            if(customerName != string.Empty && customerNumber != string.Empty){
+                MySqlCommand cmd = new MySqlCommand("insert into customer(name_customer, number_customer) values(@name, @number)", con);
+                cmd.Parameters.AddWithValue("@name", customerName);
+                cmd.Parameters.AddWithValue("@number", customerNumber);
+                cmd.ExecuteNonQuery();
+            }
             con.Close();
             refresh_();
         }
@@ -372,10 +374,12 @@ namespace Ruby_Mattress_Management_System{
             saleManeNamae = Interaction.InputBox(msg1, title1);
             saleManeNumber = Interaction.InputBox(msg2, title2);
             //insert to database
-            MySqlCommand cmd = new MySqlCommand("insert into saleman(name_saleman, phone_number_saleman) values(@name, @number)", con);
-            cmd.Parameters.AddWithValue("@name", saleManeNamae);
-            cmd.Parameters.AddWithValue("@number", saleManeNumber);
-            cmd.ExecuteNonQuery();
+            if(saleManeNamae != string.Empty && saleManeNumber != string.Empty) {
+                MySqlCommand cmd = new MySqlCommand("insert into saleman(name_saleman, phone_number_saleman) values(@name, @number)", con);
+                cmd.Parameters.AddWithValue("@name", saleManeNamae);
+                cmd.Parameters.AddWithValue("@number", saleManeNumber);
+                cmd.ExecuteNonQuery();
+            }
             con.Close();
             refresh_();
         }
@@ -388,7 +392,7 @@ namespace Ruby_Mattress_Management_System{
                 MessageBox.Show(ex.Message);
             }
 
-            if(newJobCard){//create first table (job_card)
+            if(newJobCard){//create the first table (job_card) if its a new job card
                 MySqlCommand cmd0 = new MySqlCommand("insert into job_card(id_job) values(@iddd)", con);
                 cmd0.Parameters.AddWithValue("@iddd", jobCrdId);
                 cmd0.ExecuteNonQuery();
@@ -528,7 +532,7 @@ namespace Ruby_Mattress_Management_System{
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e){
             verIemContr();
-            verJobContr();
+            //verJobContr();
         }
 
         private void button3_Click(object sender, EventArgs e){//for item edition, first select from DGV and then dit
@@ -537,8 +541,7 @@ namespace Ruby_Mattress_Management_System{
 
         private void button5_Click(object sender, EventArgs e){//add new item
             comboBox3.SelectedIndex = -1;
-            try
-            {
+            try{
                 con.Open();
             }
             catch (MySql.Data.MySqlClient.MySqlException ex){
@@ -551,12 +554,13 @@ namespace Ruby_Mattress_Management_System{
 
             title1 = "saleMan Name";
 
-
             itemNamae = Interaction.InputBox(msg1, title1);
             //insert to database
-            MySqlCommand cmd = new MySqlCommand("insert into items_combo(name_) values(@item)", con);
-            cmd.Parameters.AddWithValue("@item", itemNamae);
-            cmd.ExecuteNonQuery();
+            if(itemNamae != string.Empty){
+                MySqlCommand cmd = new MySqlCommand("insert into items_combo(name_) values(@item)", con);
+                cmd.Parameters.AddWithValue("@item", itemNamae);
+                cmd.ExecuteNonQuery();
+            }
             con.Close();
             refresh_();
         }
@@ -608,7 +612,6 @@ namespace Ruby_Mattress_Management_System{
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e){//search
- 
             int index = comboBox3.FindString(textBox2.Text);
 
             if (index != -1){
@@ -669,12 +672,16 @@ namespace Ruby_Mattress_Management_System{
             return Math.Abs(numericalValue);
         }
 
-        private void button13_Click(object sender, EventArgs e){
-            fileNameJob = uploadDrawoJob();
-            if (fileNameJob != "File not selected!")
-                button13.Text = Path.GetFileName(fileNameJob);
-            else
-                button13.Text = "Upload Drawings";
+        private void textBox8_TextChanged(object sender, EventArgs e){//lift size
+            verJobContr();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e){//lift size
+            verJobContr();
+        }
+
+        private void textBox9_TextChanged(object sender, EventArgs e){
+            verJobContr();
         }
     }//end form
 }//end namespace
