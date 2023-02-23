@@ -16,7 +16,7 @@ namespace Ruby_Mattress_Management_System
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new jobCardForm());
+            Application.Run(new Form1());
         }
     }
 }

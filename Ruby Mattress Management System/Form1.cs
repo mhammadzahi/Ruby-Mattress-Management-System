@@ -20,14 +20,22 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
 using System.Diagnostics;
 //using System.Drawing;
 using System.Globalization;
+//using static System.Net.WebRequestMethods;
 
 namespace Ruby_Mattress_Management_System{
-    public partial class jobCardForm : Form {
+    public partial class Form1 : Form {
         string fileName;
         int jobCrdId;
         bool newJobCard;
+        int id_edit;
+        bool is_edit = false;
         MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection("server=localhost; database=productionmaster; uid=root");
-        public jobCardForm(){
+        public Form1(int id_edit, bool is_edit){//const 1
+            InitializeComponent();
+            this.id_edit = id_edit;
+            this.is_edit = is_edit;
+        }
+        public Form1(){//const 2
             InitializeComponent();
         }
         public string uploadDraw(){//return file path --for item--
@@ -75,7 +83,40 @@ namespace Ruby_Mattress_Management_System{
             else
                 button4.Enabled = true;
         }
-        private void fillData(){//fill items DGV
+        private void fillData_ed(){//fill items DGV edit mode
+            try{ //open Connection
+                con.Open();
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex){
+                MessageBox.Show(ex.Message);
+            }
+
+            MySqlCommand cmd = new MySqlCommand("select name_item, category_item, description_item, s_width, s_length, s_height, quantity_item, remark_item, drawing_name from item where id_job_card = @idJobCard", con);
+            cmd.Parameters.AddWithValue("@idJobCard", id_edit);
+            MySqlDataReader dr = cmd.ExecuteReader();
+
+            DataTable dt = new DataTable();
+            dt.Load(dr);
+            dataGridItem.DataSource = dt;
+            dr.Close();
+            con.Close();
+
+            dataGridItem.Columns[0].HeaderText = "Name";
+            dataGridItem.Columns[1].HeaderText = "Category";
+            dataGridItem.Columns[2].HeaderText = "Description";
+            dataGridItem.Columns[3].HeaderText = "Width";
+            dataGridItem.Columns[4].HeaderText = "Length";
+            dataGridItem.Columns[5].HeaderText = "Height";
+            dataGridItem.Columns[6].HeaderText = "Quantity";
+            dataGridItem.Columns[7].HeaderText = "Remarks";
+            dataGridItem.Columns[8].HeaderText = "Drawing";
+
+            dataGridItem.ColumnHeadersDefaultCellStyle.BackColor = Color.Coral;
+            dataGridItem.EnableHeadersVisualStyles = false;
+            //description column width
+            dataGridItem.Columns[2].Width = 432;
+        }//end fill items DGV edit mode
+        private void fillData(){//fill items DGV creation mode
             try{ //open Connection
                 con.Open();
             }
@@ -107,9 +148,107 @@ namespace Ruby_Mattress_Management_System{
             dataGridItem.EnableHeadersVisualStyles = false;
             //description column width
             dataGridItem.Columns[2].Width = 432;
-        }//end fill DGV
+        }//end fill items DGV creation mode
+        private void refresh_Ed_(){//refresh job card in edit mode
+            //villa vs BDG checkbox problem
+            villaRadio.Enabled = true;
+            bdgRadio.Enabled = true;
+            textBox8.Enabled = true;
+            textBox1.Enabled = true;
+            //label2.Enabled = true;
+            label12.Enabled = true;
+            checkBox1.Checked = false;
+            villaRadio.Checked = false;
+            bdgRadio.Checked = false;
+            //
+            fileName = null;
+            //
+            button2.Enabled = false;
+            button8.Enabled = false;
+            button3.Enabled = false;
+            button9.Text = "Upload Drawings";
 
-        private void refresh_(){
+            //empty controls
+            comboBox1.Items.Clear();
+            comboBox2.Items.Clear();
+            comboBox3.Items.Clear();
+            comboBox4.Items.Clear();
+            comboBox1.Text = string.Empty;
+            comboBox2.Text = string.Empty;
+            comboBox3.Text = string.Empty;
+            comboBox4.Text = string.Empty;
+            emiratesComb.Text = string.Empty;
+            textBox9.Text = string.Empty;
+            textBox8.Text = string.Empty;
+            textBox1.Text = string.Empty;
+            textBox2.Text = string.Empty;
+            textBox3.Text = string.Empty;
+            textBox5.Text = string.Empty;
+            textBox4.Text = string.Empty;
+            textBox6.Text = string.Empty;
+            textBox7.Text = string.Empty;
+            i_height.Text = string.Empty;
+            i_width.Text = string.Empty;
+            i_length.Text = string.Empty;
+
+            //fill emirates
+            emiratesComb.Items.Clear();
+            emiratesComb.Items.Add("Abu Dhabi");
+            emiratesComb.Items.Add("Dubai");
+            emiratesComb.Items.Add("Sharjah");
+            emiratesComb.Items.Add("Ajman");
+            emiratesComb.Items.Add("Umm Al Quwain");
+            emiratesComb.Items.Add("Ras Al Khaimah");
+            emiratesComb.Items.Add("Fujairah");
+            // Fill Categories
+            comboBox4.Items.Add("A");
+            comboBox4.Items.Add("B");
+            comboBox4.Items.Add("C");
+            comboBox4.Items.Add("D");
+
+            try{
+                con.Open();
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            //Fill Saleman Combo
+            var cmd1 = new MySqlCommand("select name_saleman from saleman", con);
+            MySqlDataReader dr1 = cmd1.ExecuteReader();
+            while (dr1.Read())
+            {
+                comboBox2.Items.Add(dr1.GetString(0));
+            }
+            dr1.Close();
+
+            //Fill customer Combo
+            var cmd2 = new MySqlCommand("select name_customer from customer", con);
+            MySqlDataReader dr2 = cmd2.ExecuteReader();
+            while (dr2.Read())
+            {
+                comboBox1.Items.Add(dr2.GetString(0));
+            }
+            dr2.Close();
+
+            //Fill item Combo
+            var cmd3 = new MySqlCommand("select name_ from items_combo", con);
+            MySqlDataReader dr3 = cmd3.ExecuteReader();
+            while (dr3.Read())
+            {
+                comboBox3.Items.Add(dr3.GetString(0));
+            }
+            dr3.Close();
+            //
+            con.Close();
+
+            fillData_ed();//DGVItems
+            verIemContr();
+            verJobContr();
+        }//end refresh in edit mode function
+
+        private void refresh_(){//refresh in job card creation mode
             //villa vs BDG checkbox problem
             villaRadio.Enabled = true;
             bdgRadio.Enabled = true;
@@ -201,12 +340,23 @@ namespace Ruby_Mattress_Management_System{
             fillData();//DGV
             verIemContr();
             verJobContr();
-        }//end refresh func
-        private void Form1_Load(object sender, EventArgs e){
-            jobCrdId = generInt();
-            newJobCard = true;
-            refresh_();
-        }
+        }//end refresh func in creation mode
+        private void Form1_Load(object sender, EventArgs e){//form1.Load
+            if(is_edit){
+                //show label2
+                label2.Text = "Edit Job Card N° " + id_edit;
+                label2.Visible = true;
+                //Interaction.MsgBox(is_edit + " " + id_edit);
+                refresh_Ed_();
+            }
+            else{
+                label2.Text = "Create a new Job Card";
+                label2.Visible = true;
+                jobCrdId = generInt();
+                newJobCard = true;
+                refresh_();
+            }
+        }//end form load
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e){
             textBox8.Text = string.Empty;
@@ -216,7 +366,6 @@ namespace Ruby_Mattress_Management_System{
             textBox1.Enabled = false;
 
             label12.Enabled = false;
-            
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e){
@@ -226,7 +375,6 @@ namespace Ruby_Mattress_Management_System{
             label12.Enabled = true;
             //label2.Enabled = true;
         }
-
         private void button9_Click(object sender, EventArgs e){//upload drawing
             fileName = uploadDraw();
             if (fileName != "File not selected!")
@@ -236,7 +384,6 @@ namespace Ruby_Mattress_Management_System{
 
             verIemContr();
         }
-
         private void checkBox1_CheckedChanged(object sender, EventArgs e){//handle checkbox event
             
             textBox1.Text = string.Empty;
@@ -267,62 +414,72 @@ namespace Ruby_Mattress_Management_System{
             this.Close();
         }
 
-        private void button6_Click(object sender, EventArgs e){ //save new job card in db
-            string itemType;
-            if(villaRadio.Checked == true){
-                itemType = "villa";
-            }
-            else if(bdgRadio.Checked == true){
-                itemType = "BDG";
+        private void button6_Click(object sender, EventArgs e){//save job card in db
+            if (is_edit){
+
             }
             else{
-                itemType = null;
+                string itemType;
+                if (villaRadio.Checked == true)
+                {
+                    itemType = "villa";
+                }
+                else if (bdgRadio.Checked == true)
+                {
+                    itemType = "BDG";
+                }
+                else
+                {
+                    itemType = null;
+                }
+                try
+                {
+                    con.Open();
+                }
+                catch (MySql.Data.MySqlClient.MySqlException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+                MySqlCommand cmd;
+                if (textBox1.Text != string.Empty || textBox8.Text != string.Empty){
+                    //byte[] pdfData = File.ReadAllBytes(fileNameJob);
+                    cmd = new MySqlCommand("update job_card set order_date = DATE_FORMAT(@od, '%Y-%m-%d %H:%i:%s'), delive_date = DATE_FORMAT(@dd, '%Y-%m-%d %H:%i:%s'), location = @loc, area = @a, type = @t, saleman = @sm, customer = @cust, lift_size_len = @len, lift_size_width = @wid where id_job = @id", con);
+                    cmd.Parameters.AddWithValue("@id", jobCrdId);
+                    cmd.Parameters.AddWithValue("@od", dateTimePicker2.Value);
+                    cmd.Parameters.AddWithValue("@dd", dateTimePicker1.Value);
+                    cmd.Parameters.AddWithValue("@loc", emiratesComb.Text);
+                    cmd.Parameters.AddWithValue("@a", textBox9.Text);
+                    cmd.Parameters.AddWithValue("@t", itemType);
+                    cmd.Parameters.AddWithValue("@sm", comboBox2.Text);
+                    cmd.Parameters.AddWithValue("@cust", comboBox1.Text);
+                    //cmd.Parameters.AddWithValue("@i", comboBox3.Text);
+                    //cmd.Parameters.AddWithValue("@file_", pdfData);
+                    cmd.Parameters.AddWithValue("@len", int.Parse(textBox8.Text));
+                    cmd.Parameters.AddWithValue("@wid", int.Parse(textBox1.Text));
+                    cmd.ExecuteNonQuery();
+                }
+                else{
+                    //byte[] pdfData = File.ReadAllBytes(fileNameJob);
+                    cmd = new MySqlCommand("update job_card set order_date = @od, delive_date = @dd, location = @loc, area = @a, type = @t, saleman = @sm, customer = @cust where id_job = @id", con);
+                    cmd.Parameters.AddWithValue("@id", jobCrdId);
+                    cmd.Parameters.AddWithValue("@od", dateTimePicker2);
+                    cmd.Parameters.AddWithValue("@dd", dateTimePicker1);
+                    cmd.Parameters.AddWithValue("@loc", emiratesComb.Text);
+                    cmd.Parameters.AddWithValue("@a", textBox9.Text);
+                    cmd.Parameters.AddWithValue("@t", itemType);
+                    cmd.Parameters.AddWithValue("@sm", comboBox2.Text);
+                    cmd.Parameters.AddWithValue("@cust", comboBox1.Text);
+                    //cmd.Parameters.AddWithValue("@i", comboBox3.Text);
+                    //cmd.Parameters.AddWithValue("@file_", pdfData);
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+                newJobCard = true;
+                jobCrdId = generInt();
+                refresh_();
             }
-            try{
-                con.Open();
-            }
-            catch (MySql.Data.MySqlClient.MySqlException ex){
-                MessageBox.Show(ex.Message);
-            }
-            
-            MySqlCommand cmd;
-            if(textBox1.Text != string.Empty || textBox8.Text != string.Empty){
-                //byte[] pdfData = File.ReadAllBytes(fileNameJob);
-                cmd = new MySqlCommand("update job_card set order_date = @od, delive_date = @dd, location = @loc, area = @a, type = @t, saleman = @sm, customer = @cust, lift_size_len = @len, lift_size_width = @wid where id_job = @id", con);
-                cmd.Parameters.AddWithValue("@id", jobCrdId);
-                cmd.Parameters.AddWithValue("@od", dateTimePicker2.Value);
-                cmd.Parameters.AddWithValue("@dd", dateTimePicker1.Value);
-                cmd.Parameters.AddWithValue("@loc", emiratesComb.Text);
-                cmd.Parameters.AddWithValue("@a", textBox9.Text);
-                cmd.Parameters.AddWithValue("@t", itemType);
-                cmd.Parameters.AddWithValue("@sm", comboBox2.Text);
-                cmd.Parameters.AddWithValue("@cust", comboBox1.Text);
-                //cmd.Parameters.AddWithValue("@i", comboBox3.Text);
-                //cmd.Parameters.AddWithValue("@file_", pdfData);
-                cmd.Parameters.AddWithValue("@len", int.Parse(textBox8.Text));
-                cmd.Parameters.AddWithValue("@wid", int.Parse(textBox1.Text));
-                cmd.ExecuteNonQuery();
-            }
-            else{
-                //byte[] pdfData = File.ReadAllBytes(fileNameJob);
-                cmd = new MySqlCommand("update job_card set order_date = @od, delive_date = @dd, location = @loc, area = @a, type = @t, saleman = @sm, customer = @cust where id_job = @id", con);
-                cmd.Parameters.AddWithValue("@id", jobCrdId);
-                cmd.Parameters.AddWithValue("@od", dateTimePicker2.Value);
-                cmd.Parameters.AddWithValue("@dd", dateTimePicker1.Value);
-                cmd.Parameters.AddWithValue("@loc", emiratesComb.Text);
-                cmd.Parameters.AddWithValue("@a", textBox9.Text);
-                cmd.Parameters.AddWithValue("@t", itemType);
-                cmd.Parameters.AddWithValue("@sm", comboBox2.Text);
-                cmd.Parameters.AddWithValue("@cust", comboBox1.Text);
-                //cmd.Parameters.AddWithValue("@i", comboBox3.Text);
-                //cmd.Parameters.AddWithValue("@file_", pdfData);
-                cmd.ExecuteNonQuery();
-            }
-            con.Close();
-            newJobCard = true;
-            jobCrdId = generInt();
-            refresh_();
-        }//end new job card to db
+        }//end save job card in db
 
         private void button1_Click(object sender, EventArgs e){//add new customer
             comboBox1.SelectedIndex = -1;
@@ -570,33 +727,7 @@ namespace Ruby_Mattress_Management_System{
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e){
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
-        //RetrievePDF
-        private void RetrievePDF(){//oooooooooooooo not called yet oooooooooooooooooooooooooooooooooooooo
-            FolderBrowserDialog diag = new FolderBrowserDialog();
-            if (diag.ShowDialog() == System.Windows.Forms.DialogResult.OK){
-                byte[] pdfData = null;
-                try{
-                    con.Open();
-                }
-                catch (MySql.Data.MySqlClient.MySqlException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                var cmd1 = new MySqlCommand("select drawing from job_card where id_job = 66", con);
-                MySqlDataReader dr1 = cmd1.ExecuteReader();
-                while (dr1.Read()){
-                    pdfData = (byte[])dr1["drawing"];
-                }
-                File.WriteAllBytes(diag.SelectedPath + "\\drawing.pdf", pdfData);
-                dr1.Close();
-                con.Close();
-                //open pdf
-                Process.Start(diag.SelectedPath + "\\drawing.pdf");
-            }
-            else
-                Interaction.MsgBox("You didn't select any folder!");
-        }//end Retrieve function
-
+        
         private void emiratesComb_SelectedIndexChanged(object sender, EventArgs e){
             verJobContr();
         }
@@ -666,10 +797,20 @@ namespace Ruby_Mattress_Management_System{
             Form2 form2 = new Form2();
             form2.Show();
         }
-        public int generInt(){// convert date to int
-            DateTime date = DateTime.Now;
-            int numericalValue = (int)((date.ToUniversalTime().Ticks - new DateTime(0001, 01, 01, 0, 0, 0, DateTimeKind.Utc).Ticks) / 900000);
-            return Math.Abs(numericalValue);
+        public int generInt(){//select max id and + 1 to it*************
+            try{
+                con.Open();
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex){
+                MessageBox.Show(ex.Message);
+            }
+            var cmd1 = new MySqlCommand("select MAX(id_job) from job_card", con);
+            int res = (int)cmd1.ExecuteScalar();
+            con.Close();
+            //DateTime date = DateTime.Now;
+            //int numericalValue = (int)((date.ToUniversalTime().Ticks - new DateTime(0001, 01, 01, 0, 0, 0, DateTimeKind.Utc).Ticks) / 900000);
+            //return Math.Abs(numericalValue);
+            return res + 1;
         }
 
         private void textBox8_TextChanged(object sender, EventArgs e){//lift size
