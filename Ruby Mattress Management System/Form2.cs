@@ -21,7 +21,7 @@ using System.Text.RegularExpressions;
 
 namespace Ruby_Mattress_Management_System {
     public partial class Form2 : Form{
-        MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection("server=localhost; database=productionmaster; uid=root");
+        MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection("server=localhost; database=productionmaster; uid=root; Convert Zero Datetime=True");
 
         public Form2(){
             InitializeComponent();

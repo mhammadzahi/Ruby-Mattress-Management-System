@@ -340,6 +340,7 @@ namespace Ruby_Mattress_Management_System{
             fillData();//DGV
             verIemContr();
             verJobContr();
+            //*****
         }//end refresh func in creation mode
         private void Form1_Load(object sender, EventArgs e){//form1.Load
             if(is_edit){
@@ -349,13 +350,14 @@ namespace Ruby_Mattress_Management_System{
                 //Interaction.MsgBox(is_edit + " " + id_edit);
                 refresh_Ed_();
             }
-            else{
-                label2.Text = "Create a new Job Card";
-                label2.Visible = true;
+            else{//is create
                 jobCrdId = generInt();
+                label2.Text = "Create a new Job Car  N° " + jobCrdId;
+                label2.Visible = true;
                 newJobCard = true;
                 refresh_();
             }
+            button13.Enabled = false;
         }//end form load
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e){
@@ -444,7 +446,8 @@ namespace Ruby_Mattress_Management_System{
                 MySqlCommand cmd;
                 if (textBox1.Text != string.Empty || textBox8.Text != string.Empty){
                     //byte[] pdfData = File.ReadAllBytes(fileNameJob);
-                    cmd = new MySqlCommand("update job_card set order_date = DATE_FORMAT(@od, '%Y-%m-%d %H:%i:%s'), delive_date = DATE_FORMAT(@dd, '%Y-%m-%d %H:%i:%s'), location = @loc, area = @a, type = @t, saleman = @sm, customer = @cust, lift_size_len = @len, lift_size_width = @wid where id_job = @id", con);
+                    //cmd = new MySqlCommand("update job_card set order_date = DATE_FORMAT(@od, '%Y-%m-%d %H:%i:%s'), delive_date = DATE_FORMAT(@dd, '%Y-%m-%d %H:%i:%s'), location = @loc, area = @a, type = @t, saleman = @sm, customer = @cust, lift_size_len = @len, lift_size_width = @wid where id_job = @id", con);
+                    cmd = new MySqlCommand("update job_card set order_date = @od, delive_date = @dd, location = @loc, area = @a, type = @t, saleman = @sm, customer = @cust, lift_size_len = @len, lift_size_width = @wid where id_job = @id", con);
                     cmd.Parameters.AddWithValue("@id", jobCrdId);
                     cmd.Parameters.AddWithValue("@od", dateTimePicker2.Value);
                     cmd.Parameters.AddWithValue("@dd", dateTimePicker1.Value);
@@ -463,8 +466,8 @@ namespace Ruby_Mattress_Management_System{
                     //byte[] pdfData = File.ReadAllBytes(fileNameJob);
                     cmd = new MySqlCommand("update job_card set order_date = @od, delive_date = @dd, location = @loc, area = @a, type = @t, saleman = @sm, customer = @cust where id_job = @id", con);
                     cmd.Parameters.AddWithValue("@id", jobCrdId);
-                    cmd.Parameters.AddWithValue("@od", dateTimePicker2);
-                    cmd.Parameters.AddWithValue("@dd", dateTimePicker1);
+                    cmd.Parameters.AddWithValue("@od", dateTimePicker2.Value);
+                    cmd.Parameters.AddWithValue("@dd", dateTimePicker1.Value);
                     cmd.Parameters.AddWithValue("@loc", emiratesComb.Text);
                     cmd.Parameters.AddWithValue("@a", textBox9.Text);
                     cmd.Parameters.AddWithValue("@t", itemType);
@@ -475,8 +478,8 @@ namespace Ruby_Mattress_Management_System{
                     cmd.ExecuteNonQuery();
                 }
                 con.Close();
-                newJobCard = true;
                 jobCrdId = generInt();
+                label2.Text = "Create a new Job Car  N° " + jobCrdId;
                 refresh_();
             }
         }//end save job card in db
@@ -549,7 +552,7 @@ namespace Ruby_Mattress_Management_System{
                 MessageBox.Show(ex.Message);
             }
 
-            if(newJobCard){//create the first table (job_card) if its a new job card
+            if(newJobCard){//create the first table (job_card) if its a new job card (idk if it will call)
                 MySqlCommand cmd0 = new MySqlCommand("insert into job_card(id_job) values(@iddd)", con);
                 cmd0.Parameters.AddWithValue("@iddd", jobCrdId);
                 cmd0.ExecuteNonQuery();
@@ -574,6 +577,7 @@ namespace Ruby_Mattress_Management_System{
 
             con.Close();
             refresh_();
+            button13.Enabled = true;
         }//end new item in db
 
         private void textBox7_TextChanged(object sender, EventArgs e){
@@ -824,5 +828,39 @@ namespace Ruby_Mattress_Management_System{
         private void textBox9_TextChanged(object sender, EventArgs e){
             verJobContr();
         }
+
+        private void dataGridItem_CellClick(object sender, DataGridViewCellEventArgs e){// select row when cell click
+            // Deselect all other rows
+            dataGridItem.ClearSelection();
+            // Select the clicked row
+            dataGridItem.Rows[e.RowIndex].Selected = true;
+            DataGridViewRow row = dataGridItem.Rows[e.RowIndex];
+        }
+
+        private void button13_Click(object sender, EventArgs e){// cancel button
+            if(is_edit){
+                //------
+                //------
+            }
+            else{//is create 
+                try{
+                    con.Open();
+                }
+                catch (MySql.Data.MySqlClient.MySqlException ex){
+                    MessageBox.Show(ex.Message);
+                }
+
+                MySqlCommand cmd = new MySqlCommand("delete from item where id_job_card = @id_job", con);
+                cmd.Parameters.AddWithValue("@id_job", jobCrdId);
+                cmd.ExecuteNonQuery();
+
+                MySqlCommand cmd2 = new MySqlCommand("delete from job_card where id_job = @id_job_card", con);
+                cmd2.Parameters.AddWithValue("@id_job_card", jobCrdId);
+                cmd2.ExecuteNonQuery();
+                con.Close();
+                refresh_();
+                button13.Enabled = false;
+            }
+        }//end cancel button
     }//end form
 }//end namespace

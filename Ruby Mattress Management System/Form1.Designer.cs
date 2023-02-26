@@ -45,7 +45,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
@@ -82,6 +81,8 @@
             this.button12 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button13 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridItem)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -221,16 +222,6 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(1225, 593);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 28);
-            this.button6.TabIndex = 28;
-            this.button6.Text = "Save";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(174, 121);
@@ -324,6 +315,7 @@
             this.dataGridItem.ReadOnly = true;
             this.dataGridItem.Size = new System.Drawing.Size(1275, 354);
             this.dataGridItem.TabIndex = 41;
+            this.dataGridItem.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridItem_CellClick);
             // 
             // button9
             // 
@@ -400,7 +392,7 @@
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(1023, 593);
+            this.button10.Location = new System.Drawing.Point(947, 593);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(66, 28);
             this.button10.TabIndex = 49;
@@ -472,13 +464,13 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(38, 22);
             this.button3.TabIndex = 56;
-            this.button3.Text = "Edit";
+            this.button3.Text = "Del";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(1089, 593);
+            this.button11.Location = new System.Drawing.Point(1013, 593);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(66, 28);
             this.button11.TabIndex = 57;
@@ -573,7 +565,7 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(1155, 593);
+            this.button12.Location = new System.Drawing.Point(1079, 593);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(71, 28);
             this.button12.TabIndex = 65;
@@ -623,11 +615,32 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Job Crard";
             // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(1150, 593);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(75, 28);
+            this.button13.TabIndex = 68;
+            this.button13.Text = "Cancel";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(1225, 593);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 28);
+            this.button6.TabIndex = 28;
+            this.button6.Text = "Save";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1305, 625);
+            this.Controls.Add(this.button13);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.button12);
             this.Controls.Add(this.groupBox1);
@@ -719,6 +732,7 @@
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button button13;
     }
 }
 
